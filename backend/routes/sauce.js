@@ -20,9 +20,9 @@ router.get('/', auth, sauceCtrl.getAllSauces);
 router.put('/:id', auth, multer, sauceCtrl.modifySauce);
   
   //Route pour supprimer un objet
-router.delete(':id', auth, sauceCtrl.deleteSauce);
+router.delete('/:id', auth, sauceCtrl.deleteSauce);
 
 //Route pour ajouter un like
-router.post('/:id/like', auth, sauceCtrl.addlikedislike);
+router.post('/:id/like', auth, sauceCtrl.addlikedislike); 
 
 module.exports = router;
