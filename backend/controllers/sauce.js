@@ -29,6 +29,8 @@ exports.createSauce = (req, res, next) => {
     delete sauceObject._userId;
     Sauce.findOne({_id: req.params.id})//Vérifier si c'est bien l'utlisateur qui cherche à le modifier
         .then((sauce) => {
+          const filename = sauce.imageUrl.split('/images/')[1]
+          fs.unlinkSync(`images/${filename}`)
             if (sauce.userId != req.auth.userId) {
                 res.status(401).json({ message : 'Non autorisé'});
             } else {
@@ -86,7 +88,7 @@ exports.deleteSauce = (req, res, next) => {
 exports.addlikedislike = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
-  if (req.body.like === 1) { 
+  if (req.body.like === 1) { // Si like = +, l'utilisateur aime pas (= like) la sauce
     Sauce.updateOne({ _id: req.params.id }, {
        $inc: { likes: (req.body.like++) }, 
        $push: { usersLiked: req.body.userId } 
